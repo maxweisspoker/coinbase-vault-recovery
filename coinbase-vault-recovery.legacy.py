@@ -70,6 +70,20 @@ while True:
 
 print("\nAlmost finished!")
 
+while True:
+    compresscoinbase = input('\nWas your vault created before June 2015? (y/n):  ')
+    compresscoinbase = normalize_input(compresscoinbase).replace('\r','').replace('\n','').replace(' ','')
+    try:
+        if 'y' in compresscoinbase.lower():
+            assert 'n' not in compresscoinbase.lower()
+            compresscoinbase = False
+        elif 'n' in compresscoinbase.lower():
+            compresscoinbase = True
+        assert compresscoinbase is True or compresscoinbase is False
+    except:
+        print('\nPlease enter only yes or no.')
+    else:
+        break
 
 while True:
     password = getpass("\nPlease enter your vault password:  ")
@@ -97,9 +111,11 @@ while True:
 print("\nFantastic! Here is the prerequisite information for making a multisig transaction yourself:\n")
 
 path = "m/" + str(index)
-key1 = userkey[path].pub
-key2 = sharedkey[path].pub
+key1 = uncompress(userkey[path].pub)
+key2 = uncompress(sharedkey[path].pub)
 key3 = coinbasexpub[path].pub
+if compresscoinbase is False:
+    key3 = uncompress(key3)
 
 keylist = [int(key1,16),int(key2,16),int(key3,16)]
 keylist.sort()
@@ -121,10 +137,10 @@ print("Redeem script:")
 print(redeemscript + "\n")
 
 print("First multisig signing key:")
-print(userkey[path].wif + "\n")
+print(b58e("80" + privtohex(userkey[path].wif)) + "\n")
 
 print("Second multisig signing key:")
-print(sharedkey[path].wif + "\n")
+print(b58e("80" + privtohex(sharedkey[path].wif)) + "\n")
 
 print('You can use a site like Coinb.in to make and sign a new multisig transaction.\nhttps://coinb.in/#newTransaction')
 
