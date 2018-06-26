@@ -1,3 +1,8 @@
+# DEPRECATED
+I'm deprecating this, since I know I'm not going to work on it.  This is some of the first code I ever wrote, and it's gross and sloppy not a good representation of my current knowledge and ability. But I know a few people who have used it, so I'll leave it up just in case somebody needs it. If you have issues, I recommend Coinbase's official multisig vault recovery tool at:
+
+https://coinbase.github.io/multisig-tool/
+
 # coinbase-vault-recovery
 Simple terminal Python app for recovering Coinbase vault keys
 
